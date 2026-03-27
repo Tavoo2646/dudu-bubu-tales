@@ -35,33 +35,29 @@ const scenes: SceneConfig[] = [
 ];
 
 const transitions = [
-  // Fade to black
   {
     initial: { opacity: 0 },
     animate: { opacity: 1 },
     exit: { opacity: 0 },
-    transition: { duration: 1.2 },
+    transition: { duration: 1.2 } as const,
   },
-  // Slide from right
   {
     initial: { x: "100%", opacity: 0 },
     animate: { x: 0, opacity: 1 },
     exit: { x: "-100%", opacity: 0 },
-    transition: { duration: 0.8, ease: "easeInOut" },
+    transition: { duration: 0.8, ease: "easeInOut" as const },
   },
-  // Scale zoom
   {
     initial: { scale: 1.3, opacity: 0 },
     animate: { scale: 1, opacity: 1 },
     exit: { scale: 0.7, opacity: 0 },
-    transition: { duration: 1, ease: "easeOut" },
+    transition: { duration: 1, ease: "easeOut" as const },
   },
-  // Slide up
   {
     initial: { y: "100%", opacity: 0 },
     animate: { y: 0, opacity: 1 },
     exit: { y: "-100%", opacity: 0 },
-    transition: { duration: 0.8, ease: "easeInOut" },
+    transition: { duration: 0.8, ease: "easeInOut" as const },
   },
 ];
 
