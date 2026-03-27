@@ -1,95 +1,48 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Quicksand:wght@300;400;500;600;700&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
-All colors MUST be HSL.
-*/
-
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
-
-    --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
-
-    --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
-
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
-
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
-
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
-
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
-
+    --background: 20 10% 6%;
+    --foreground: 35 30% 92%;
+    --card: 20 12% 10%;
+    --card-foreground: 35 30% 92%;
+    --popover: 20 12% 10%;
+    --popover-foreground: 35 30% 92%;
+    --primary: 340 65% 55%;
+    --primary-foreground: 35 30% 96%;
+    --secondary: 25 50% 20%;
+    --secondary-foreground: 35 30% 92%;
+    --muted: 20 15% 15%;
+    --muted-foreground: 25 15% 55%;
+    --accent: 35 80% 60%;
+    --accent-foreground: 20 10% 6%;
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 40% 98%;
+    --border: 25 20% 18%;
+    --input: 25 20% 18%;
+    --ring: 340 65% 55%;
+    --radius: 0.75rem;
 
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
-
-    --radius: 0.5rem;
+    --cinema-rose: 340 65% 55%;
+    --cinema-gold: 35 80% 60%;
+    --cinema-warm: 25 40% 12%;
+    --cinema-deep: 20 10% 4%;
+    --cinema-blush: 350 50% 80%;
+    --cinema-night: 230 30% 12%;
+    --cinema-sunset: 15 70% 50%;
+    --cinema-cream: 35 30% 90%;
 
     --sidebar-background: 0 0% 98%;
-
     --sidebar-foreground: 240 5.3% 26.1%;
-
     --sidebar-primary: 240 5.9% 10%;
-
     --sidebar-primary-foreground: 0 0% 98%;
-
     --sidebar-accent: 240 4.8% 95.9%;
-
     --sidebar-accent-foreground: 240 5.9% 10%;
-
     --sidebar-border: 220 13% 91%;
-
-    --sidebar-ring: 217.2 91.2% 59.8%;
-  }
-
-  .dark {
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
-
-    --card: 222.2 84% 4.9%;
-    --card-foreground: 210 40% 98%;
-
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
-
-    --primary: 210 40% 98%;
-    --primary-foreground: 222.2 47.4% 11.2%;
-
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
-
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
-
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
-
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
-
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 212.7 26.8% 83.9%;
-    --sidebar-background: 240 5.9% 10%;
-    --sidebar-foreground: 240 4.8% 95.9%;
-    --sidebar-primary: 224.3 76.3% 48%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 240 3.7% 15.9%;
-    --sidebar-accent-foreground: 240 4.8% 95.9%;
-    --sidebar-border: 240 3.7% 15.9%;
     --sidebar-ring: 217.2 91.2% 59.8%;
   }
 }
@@ -98,8 +51,114 @@ All colors MUST be HSL.
   * {
     @apply border-border;
   }
-
   body {
     @apply bg-background text-foreground;
+    font-family: 'Quicksand', sans-serif;
+    overflow: hidden;
   }
+}
+
+@layer utilities {
+  .font-display {
+    font-family: 'Playfair Display', serif;
+  }
+  .font-body {
+    font-family: 'Quicksand', sans-serif;
+  }
+}
+
+/* Cinema subtitle styling */
+.cinema-subtitle {
+  text-shadow: 0 2px 20px rgba(0,0,0,0.8), 0 0 40px rgba(0,0,0,0.5);
+  letter-spacing: 0.02em;
+}
+
+/* Heart cursor trail particle */
+.heart-particle {
+  pointer-events: none;
+  position: fixed;
+  z-index: 9999;
+  animation: heart-float 1.5s ease-out forwards;
+}
+
+@keyframes heart-float {
+  0% { opacity: 1; transform: scale(1) translateY(0); }
+  100% { opacity: 0; transform: scale(0.3) translateY(-60px) rotate(20deg); }
+}
+
+/* Firefly animation */
+@keyframes firefly-drift {
+  0%, 100% { transform: translate(0, 0) scale(1); opacity: 0.3; }
+  25% { transform: translate(30px, -20px) scale(1.2); opacity: 0.8; }
+  50% { transform: translate(-10px, -40px) scale(0.8); opacity: 0.5; }
+  75% { transform: translate(20px, -10px) scale(1.1); opacity: 0.9; }
+}
+
+.firefly {
+  animation: firefly-drift var(--duration, 6s) ease-in-out infinite;
+  animation-delay: var(--delay, 0s);
+}
+
+/* Rain drop */
+@keyframes rain-fall {
+  0% { transform: translateY(-100vh) rotate(15deg); opacity: 0.7; }
+  100% { transform: translateY(100vh) rotate(15deg); opacity: 0; }
+}
+
+.raindrop {
+  animation: rain-fall var(--duration, 1s) linear infinite;
+  animation-delay: var(--delay, 0s);
+}
+
+/* Film grain overlay */
+@keyframes grain {
+  0%, 100% { transform: translate(0, 0); }
+  10% { transform: translate(-2%, -3%); }
+  30% { transform: translate(3%, 2%); }
+  50% { transform: translate(-1%, 3%); }
+  70% { transform: translate(2%, -1%); }
+  90% { transform: translate(-3%, 1%); }
+}
+
+.film-grain::after {
+  content: '';
+  position: absolute;
+  inset: -50%;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+  animation: grain 0.5s steps(6) infinite;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Confetti */
+@keyframes confetti-fall {
+  0% { transform: translateY(-20px) rotate(0deg); opacity: 1; }
+  100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+}
+
+.confetti-piece {
+  animation: confetti-fall var(--duration, 3s) ease-in infinite;
+  animation-delay: var(--delay, 0s);
+}
+
+/* Spotlight sweep */
+@keyframes spotlight-sweep {
+  0% { transform: translateX(-100%) rotate(-15deg); }
+  50% { transform: translateX(0%) rotate(0deg); }
+  100% { transform: translateX(100%) rotate(15deg); }
+}
+
+/* Credits scroll */
+@keyframes credits-scroll {
+  0% { transform: translateY(100%); }
+  100% { transform: translateY(-100%); }
+}
+
+.credits-scroll {
+  animation: credits-scroll 15s linear infinite;
+}
+
+/* Progress bar glow */
+.progress-glow {
+  box-shadow: 0 0 8px hsl(var(--cinema-rose) / 0.6), 0 0 20px hsl(var(--cinema-rose) / 0.3);
 }
