@@ -1,4 +1,4 @@
-// Dudu & Bubu GIF mapping - using Tenor embed GIFs for each story event
+// Dudu & Bubu GIF mapping - using GIPHY direct GIF URLs
 export interface GifEntry {
   url: string;
   alt: string;
@@ -6,119 +6,122 @@ export interface GifEntry {
   height?: number;
 }
 
+// GIPHY direct URL format: https://media.giphy.com/media/{ID}/giphy.gif
+const giphy = (id: string) => `https://media.giphy.com/media/${id}/giphy.gif`;
+
 export const gifMap: Record<string, GifEntry> = {
   // Scene 1 - First Look
   walking: {
-    url: "https://media.tenor.com/uEN3NzmWxjgAAAAM/bubu-dudu.gif",
+    url: giphy("IFEyABqHRyg3CEMAlY"),
     alt: "Dudu walking",
   },
   shyLook: {
-    url: "https://media.tenor.com/3V_7t1R3mKAAAAAM/bubu-dudu-shy.gif",
+    url: giphy("33dLmeZAdGhVnbxdxJ"),
     alt: "Bubu shy look",
   },
   // Scene 2 - Staircase Meetings
   shyInteraction: {
-    url: "https://media.tenor.com/d0yCaARYGaQAAAAM/cute-love.gif",
+    url: giphy("kCqhMzivjgI4kFMuhF"),
     alt: "Shy interaction",
   },
   hug: {
-    url: "https://media.tenor.com/oeYC3VdmUXoAAAAM/bubu-dudu-hug.gif",
+    url: giphy("Epxaw4yGSBhogNY2Md"),
     alt: "Bubu Dudu hugging",
   },
   // Scene 3 - Love Growing
   lateNightChat: {
-    url: "https://media.tenor.com/AjfME7KJMrMAAAAM/bubu-dudu.gif",
+    url: giphy("Ey9c4OTwlZWCuVafkZ"),
     alt: "Late night chat",
   },
   heartReaction: {
-    url: "https://media.tenor.com/7_E4FDhOoVsAAAAM/love-bubu.gif",
+    url: giphy("u2EG5bHYyTZhjmeWyJ"),
     alt: "Heart reaction",
   },
   caring: {
-    url: "https://media.tenor.com/5lP5lJzMd4AAAAAM/bubu-dudu.gif",
+    url: giphy("vSbwVRwMn6tjE77Q7M"),
     alt: "Caring moment",
   },
   // Scene 4 - Proposal
   proposing: {
-    url: "https://media.tenor.com/W9n3PNyivJMAAAAM/bubu-dudu-love.gif",
+    url: giphy("UW2trnVEAftqckaHCI"),
     alt: "Love proposal",
   },
   thinking: {
-    url: "https://media.tenor.com/aCkx2VJFE4QAAAAM/bubu-and-dudu.gif",
+    url: giphy("kCqhMzivjgI4kFMuhF"),
     alt: "Thinking",
   },
   acceptanceHug: {
-    url: "https://media.tenor.com/oeYC3VdmUXoAAAAM/bubu-dudu-hug.gif",
+    url: giphy("Epxaw4yGSBhogNY2Md"),
     alt: "Acceptance hug",
   },
   // Scene 5 - College Journey
   walkingTogether: {
-    url: "https://media.tenor.com/c2fgBvKQussAAAAM/bubu-dudu.gif",
+    url: giphy("LT8B4oa9xvbhf2pFTR"),
     alt: "Walking together",
   },
   eating: {
-    url: "https://media.tenor.com/ZLsGkuMjGQYAAAAM/bubu-dudu.gif",
+    url: giphy("33dLmeZAdGhVnbxdxJ"),
     alt: "Eating together",
   },
   iceCream: {
-    url: "https://media.tenor.com/GDXW5bWK8GIAAAAM/bubu-dudu.gif",
+    url: giphy("IFEyABqHRyg3CEMAlY"),
     alt: "Ice cream together",
   },
   // Scene 6 - Memories
   movieWatching: {
-    url: "https://media.tenor.com/dWU6hRJaB5MAAAAM/bubu-dudu.gif",
+    url: giphy("Ey9c4OTwlZWCuVafkZ"),
     alt: "Movie watching",
   },
   tripHappiness: {
-    url: "https://media.tenor.com/uEN3NzmWxjgAAAAM/bubu-dudu.gif",
+    url: giphy("LT8B4oa9xvbhf2pFTR"),
     alt: "Trip happiness",
   },
   parkSitting: {
-    url: "https://media.tenor.com/5lP5lJzMd4AAAAAM/bubu-dudu.gif",
+    url: giphy("vSbwVRwMn6tjE77Q7M"),
     alt: "Park sitting",
   },
   festival: {
-    url: "https://media.tenor.com/c2fgBvKQussAAAAM/bubu-dudu.gif",
+    url: giphy("u2EG5bHYyTZhjmeWyJ"),
     alt: "Festival fun",
   },
   // Scene 7 - Deep Love
   holdingHands: {
-    url: "https://media.tenor.com/d0yCaARYGaQAAAAM/cute-love.gif",
+    url: giphy("L2CGLm2BRDOXCe1uKz"),
     alt: "Holding hands",
   },
   comfortHug: {
-    url: "https://media.tenor.com/oeYC3VdmUXoAAAAM/bubu-dudu-hug.gif",
+    url: giphy("Epxaw4yGSBhogNY2Md"),
     alt: "Comfort hug",
   },
   // Scene 8 - Birthday Planning
   secretPlanning: {
-    url: "https://media.tenor.com/aCkx2VJFE4QAAAAM/bubu-and-dudu.gif",
+    url: giphy("kCqhMzivjgI4kFMuhF"),
     alt: "Secret planning",
   },
   cakeSurprise: {
-    url: "https://media.tenor.com/ZLsGkuMjGQYAAAAM/bubu-dudu.gif",
+    url: giphy("vpO1CCKoTQp0Xssnvk"),
     alt: "Cake surprise",
   },
   // Scene 9 - Birthday Climax
   cakeCutting: {
-    url: "https://media.tenor.com/GDXW5bWK8GIAAAAM/bubu-dudu.gif",
+    url: giphy("UW2trnVEAftqckaHCI"),
     alt: "Cake cutting",
   },
   celebration: {
-    url: "https://media.tenor.com/7_E4FDhOoVsAAAAM/love-bubu.gif",
+    url: giphy("u2EG5bHYyTZhjmeWyJ"),
     alt: "Celebration",
   },
   // Final Scene
   foreverTogether: {
-    url: "https://media.tenor.com/W9n3PNyivJMAAAAM/bubu-dudu-love.gif",
+    url: giphy("Epxaw4yGSBhogNY2Md"),
     alt: "Forever together",
   },
   kiss: {
-    url: "https://media.tenor.com/3V_7t1R3mKAAAAAM/bubu-dudu-shy.gif",
+    url: giphy("L2CGLm2BRDOXCe1uKz"),
     alt: "Kiss",
   },
   dance: {
-    url: "https://media.tenor.com/AjfME7KJMrMAAAAM/bubu-dudu.gif",
+    url: giphy("IFEyABqHRyg3CEMAlY"),
     alt: "Dancing together",
   },
 };
