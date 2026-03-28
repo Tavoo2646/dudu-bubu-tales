@@ -1,8 +1,8 @@
 import { motion } from "framer-motion";
-import CinemaGif from "../cinema/CinemaGif";
 import FloatingHearts from "../cinema/FloatingHearts";
 import Fireflies from "../cinema/Fireflies";
-import { gifMap } from "../../data/gifMap";
+import SceneImage from "../cinema/SceneImage";
+import scene10 from "../../assets/scene10-finale.jpg";
 
 const Scene10Finale = () => {
   return (
@@ -13,7 +13,13 @@ const Scene10Finale = () => {
       <Fireflies count={15} />
 
       <div className="relative z-20 flex flex-col items-center gap-6">
-        <CinemaGif src={gifMap.foreverTogether.url} alt={gifMap.foreverTogether.alt} delay={0.5} size="lg" />
+        <SceneImage
+          src={scene10}
+          alt="Forever together under the stars"
+          className="w-72 h-72 md:w-96 md:h-96"
+          delay={0.5}
+          animate="glow"
+        />
 
         <motion.h2
           className="text-3xl md:text-5xl font-display italic text-cinema-gold cinema-subtitle"
