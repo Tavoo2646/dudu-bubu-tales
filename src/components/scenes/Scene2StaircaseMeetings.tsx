@@ -1,6 +1,8 @@
 import { motion } from "framer-motion";
 import CinemaSubtitle from "../cinema/CinemaSubtitle";
+import SparkleOverlay from "../cinema/SparkleOverlay";
 import SceneImage from "../cinema/SceneImage";
+import WishCard from "../cinema/WishCard";
 import scene2 from "../../assets/scene2-staircase.jpg";
 
 const Scene2StaircaseMeetings = () => {
@@ -9,7 +11,7 @@ const Scene2StaircaseMeetings = () => {
       <div className="absolute inset-0 bg-gradient-to-br from-cinema-warm via-secondary to-cinema-night" />
 
       {/* Warm bokeh particles */}
-      {Array.from({ length: 12 }).map((_, i) => (
+      {Array.from({ length: 15 }).map((_, i) => (
         <motion.div
           key={i}
           className="absolute rounded-full bg-cinema-gold/15"
@@ -24,15 +26,40 @@ const Scene2StaircaseMeetings = () => {
         />
       ))}
 
+      <SparkleOverlay count={8} color="cinema-blush" />
+
       <SceneImage
         src={scene2}
         alt="Shy meeting on the staircase"
-        className="w-72 h-72 md:w-[400px] md:h-[400px] z-20"
+        className="w-64 h-64 md:w-80 md:h-80 z-20"
         delay={0.3}
         animate="breathe"
       />
 
-      <div className="absolute bottom-20 z-30 px-8">
+      {/* Heartbeat line */}
+      <motion.div className="absolute top-1/4 left-0 right-0 z-10 flex items-center justify-center">
+        <svg width="300" height="40" viewBox="0 0 300 40" className="opacity-20">
+          <motion.path
+            d="M0,20 L80,20 L100,5 L120,35 L140,10 L160,30 L180,20 L300,20"
+            fill="none"
+            stroke="hsl(var(--cinema-rose))"
+            strokeWidth="2"
+            initial={{ pathLength: 0 }}
+            animate={{ pathLength: 1 }}
+            transition={{ delay: 2, duration: 3, ease: "easeInOut" }}
+          />
+        </svg>
+      </motion.div>
+
+      <div className="absolute bottom-32 z-30 px-6">
+        <WishCard
+          wish="Every accidental meeting on those stairs felt like the universe was conspiring to bring us together. 🌙"
+          delay={3.5}
+          variant="rose"
+        />
+      </div>
+
+      <div className="absolute bottom-12 z-30 px-8">
         <CinemaSubtitle text="We didn't plan it… but it kept happening…" delay={1.5} />
       </div>
     </div>
