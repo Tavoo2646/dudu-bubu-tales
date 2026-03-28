@@ -1,6 +1,8 @@
 import { motion } from "framer-motion";
 import CinemaSubtitle from "../cinema/CinemaSubtitle";
+import SparkleOverlay from "../cinema/SparkleOverlay";
 import SceneImage from "../cinema/SceneImage";
+import WishCard from "../cinema/WishCard";
 import scene4 from "../../assets/scene4-proposal.jpg";
 
 const Scene4Proposal = () => {
@@ -21,6 +23,8 @@ const Scene4Proposal = () => {
         </motion.div>
       ))}
 
+      <SparkleOverlay count={20} color="cinema-gold" />
+
       {/* Spotlight */}
       <motion.div
         className="absolute top-0 left-1/2 -translate-x-1/2 w-[300px] h-[600px] bg-cinema-gold/5"
@@ -29,18 +33,18 @@ const Scene4Proposal = () => {
         transition={{ duration: 3, repeat: Infinity }}
       />
 
-      <div className="relative z-20 flex flex-col items-center gap-6">
+      <div className="relative z-20 flex flex-col items-center gap-4">
         <SceneImage
           src={scene4}
           alt="The proposal moment"
-          className="w-72 h-72 md:w-96 md:h-96"
+          className="w-64 h-64 md:w-80 md:h-80"
           delay={0.5}
           animate="breathe"
         />
 
         {/* Calendar - 12 months / 1 year journey */}
         <motion.div
-          className="flex flex-wrap justify-center gap-2 max-w-sm"
+          className="flex flex-wrap justify-center gap-1.5 max-w-xs"
           initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ delay: 3, duration: 0.8 }}
@@ -48,9 +52,9 @@ const Scene4Proposal = () => {
           {["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"].map((month, i) => (
             <motion.div
               key={month}
-              className={`w-10 h-10 md:w-12 md:h-12 rounded-lg flex items-center justify-center text-xs font-body ${
+              className={`w-9 h-9 md:w-10 md:h-10 rounded-lg flex items-center justify-center text-[10px] font-body ${
                 month === "Jan"
-                  ? "bg-cinema-gold/30 border-2 border-cinema-gold text-cinema-gold font-bold"
+                  ? "bg-cinema-gold/30 border-2 border-cinema-gold text-cinema-gold font-bold ring-2 ring-cinema-gold/30"
                   : "bg-cinema-rose/20 border border-cinema-rose/30 text-cinema-cream/80"
               }`}
               initial={{ opacity: 0, y: 10 }}
@@ -72,7 +76,15 @@ const Scene4Proposal = () => {
         </motion.p>
       </div>
 
-      <div className="absolute bottom-20 z-30 px-8">
+      <div className="absolute bottom-28 z-30 px-6">
+        <WishCard
+          wish="One year of beautiful chaos, and then you said 'yes' — making me the luckiest soul in the universe. ✨"
+          delay={5.5}
+          variant="golden"
+        />
+      </div>
+
+      <div className="absolute bottom-10 z-30 px-8">
         <CinemaSubtitle text="She said yes... after 1 year of beautiful chaos. January 9th — the day everything changed." delay={5} />
       </div>
     </div>
