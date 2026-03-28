@@ -1,8 +1,8 @@
 import { motion } from "framer-motion";
-import CinemaGif from "../cinema/CinemaGif";
 import CinemaSubtitle from "../cinema/CinemaSubtitle";
 import Confetti from "../cinema/Confetti";
-import { gifMap } from "../../data/gifMap";
+import SceneImage from "../cinema/SceneImage";
+import scene9 from "../../assets/scene9-birthday.jpg";
 
 const Scene9BirthdayClimax = () => {
   return (
@@ -25,27 +25,22 @@ const Scene9BirthdayClimax = () => {
         transition={{ duration: 2.5, repeat: Infinity, delay: 0.5 }}
       />
 
-      <div className="relative z-20 flex flex-col items-center gap-6">
-        <CinemaGif src={gifMap.cakeCutting.url} alt={gifMap.cakeCutting.alt} delay={0.3} size="lg" />
-        
-        <motion.div
-          className="flex gap-4"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 2 }}
-        >
-          <CinemaGif src={gifMap.celebration.url} alt={gifMap.celebration.alt} delay={2} size="sm" />
-        </motion.div>
-      </div>
+      <SceneImage
+        src={scene9}
+        alt="Birthday celebration with cake"
+        className="w-72 h-72 md:w-96 md:h-96 z-20"
+        delay={0.3}
+        animate="glow"
+      />
 
       <div className="absolute bottom-20 z-30 px-8">
-        <CinemaSubtitle 
-          text="Happy Birthday to the person who became my home." 
-          delay={2.5} 
+        <CinemaSubtitle
+          text="Happy Birthday to the person who became my home."
+          delay={2.5}
         />
       </div>
 
-      {/* Cake emoji floating */}
+      {/* Floating cake emoji */}
       <motion.div
         className="absolute top-20 right-20 text-5xl"
         animate={{ y: [0, -15, 0], rotate: [0, 10, -10, 0] }}

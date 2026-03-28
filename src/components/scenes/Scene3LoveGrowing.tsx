@@ -1,14 +1,14 @@
 import { motion } from "framer-motion";
-import CinemaGif from "../cinema/CinemaGif";
 import CinemaSubtitle from "../cinema/CinemaSubtitle";
 import FloatingHearts from "../cinema/FloatingHearts";
-import { gifMap } from "../../data/gifMap";
+import SceneImage from "../cinema/SceneImage";
+import scene3 from "../../assets/scene3-love-growing.jpg";
 
 const Scene3LoveGrowing = () => {
   return (
     <div className="relative w-full h-full flex flex-col items-center justify-center overflow-hidden">
       <div className="absolute inset-0 bg-gradient-to-t from-cinema-deep via-cinema-night to-cinema-warm" />
-      
+
       {/* Stars */}
       {Array.from({ length: 30 }).map((_, i) => (
         <motion.div
@@ -22,14 +22,16 @@ const Scene3LoveGrowing = () => {
 
       <FloatingHearts count={15} />
 
-      <div className="relative z-20 flex flex-wrap items-center justify-center gap-6">
-        <CinemaGif src={gifMap.lateNightChat.url} alt={gifMap.lateNightChat.alt} delay={0.3} size="md" />
-        <CinemaGif src={gifMap.heartReaction.url} alt={gifMap.heartReaction.alt} delay={1} size="md" />
-        <CinemaGif src={gifMap.caring.url} alt={gifMap.caring.alt} delay={1.8} size="sm" />
-      </div>
+      <SceneImage
+        src={scene3}
+        alt="Love growing under the stars"
+        className="w-72 h-72 md:w-96 md:h-96 z-20"
+        delay={0.3}
+        animate="glow"
+      />
 
       <div className="absolute bottom-20 z-30 px-8">
-        <CinemaSubtitle text="Every late night text made the heart grow fonder..." delay={2} />
+        <CinemaSubtitle text="Every moment together made the heart grow fonder..." delay={2} />
       </div>
     </div>
   );
