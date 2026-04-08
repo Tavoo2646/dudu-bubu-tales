@@ -1,92 +1,85 @@
 import { motion } from "framer-motion";
-import CinemaSubtitle from "../cinema/CinemaSubtitle";
-import SparkleOverlay from "../cinema/SparkleOverlay";
 import SceneImage from "../cinema/SceneImage";
-import WishCard from "../cinema/WishCard";
+import NarrationText from "../cinema/NarrationText";
 import scene4 from "../../assets/scene4-proposal.jpg";
 
 const Scene4Proposal = () => {
   return (
     <div className="relative w-full h-full flex flex-col items-center justify-center overflow-hidden">
-      <div className="absolute inset-0 bg-gradient-to-b from-cinema-rose/20 via-cinema-warm to-cinema-deep" />
+      <div className="absolute inset-0 bg-gradient-to-b from-cinema-rose/10 via-cinema-warm to-cinema-deep" />
 
-      {/* Floating rose petals */}
-      {Array.from({ length: 15 }).map((_, i) => (
+      {/* Soft rose petals - very few */}
+      {Array.from({ length: 5 }).map((_, i) => (
         <motion.div
           key={i}
-          className="absolute text-sm"
-          style={{ left: `${Math.random() * 100}%`, top: `-10%` }}
-          animate={{ y: ["0vh", "110vh"], x: [0, Math.random() * 60 - 30], rotate: [0, 360] }}
-          transition={{ duration: Math.random() * 6 + 5, repeat: Infinity, delay: Math.random() * 4, ease: "linear" }}
+          className="absolute text-xs opacity-30"
+          style={{ left: `${Math.random() * 100}%`, top: `-5%` }}
+          animate={{ y: ["0vh", "110vh"], x: [0, Math.random() * 30 - 15], rotate: [0, 180] }}
+          transition={{ duration: Math.random() * 8 + 8, repeat: Infinity, delay: Math.random() * 6, ease: "linear" }}
         >
           🌸
         </motion.div>
       ))}
 
-      <SparkleOverlay count={20} color="cinema-gold" />
+      <div className="relative z-30 mb-4 px-8 max-w-md">
+        <NarrationText
+          lines={[
+            "One day… I gathered courage…",
+            "And told you what my heart already knew.",
+            "I loved you.",
+          ]}
+          startDelay={0.5}
+          lineGap={2}
+        />
+      </div>
 
-      {/* Spotlight */}
-      <motion.div
-        className="absolute top-0 left-1/2 -translate-x-1/2 w-[300px] h-[600px] bg-cinema-gold/5"
-        style={{ clipPath: "polygon(40% 0%, 60% 0%, 100% 100%, 0% 100%)" }}
-        animate={{ opacity: [0.3, 0.6, 0.3] }}
-        transition={{ duration: 3, repeat: Infinity }}
+      <SceneImage
+        src={scene4}
+        alt="The proposal moment"
+        className="w-52 h-52 md:w-68 md:h-68 z-20"
+        delay={5.5}
       />
 
-      <div className="relative z-20 flex flex-col items-center gap-4">
-        <SceneImage
-          src={scene4}
-          alt="The proposal moment"
-          className="w-64 h-64 md:w-80 md:h-80"
-          delay={0.5}
-          animate="breathe"
+      <div className="relative z-30 mt-4 px-8 max-w-md">
+        <NarrationText
+          lines={[
+            "You didn't say yes…",
+            "But you never walked away.",
+            "You took time… Not days… Not months…",
+            "One whole year…",
+          ]}
+          startDelay={7.5}
+          lineGap={1.8}
         />
+      </div>
 
-        {/* Calendar - 12 months / 1 year journey */}
-        <motion.div
-          className="flex flex-wrap justify-center gap-1.5 max-w-xs"
-          initial={{ opacity: 0, scale: 0.8 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ delay: 3, duration: 0.8 }}
-        >
-          {["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"].map((month, i) => (
-            <motion.div
-              key={month}
-              className={`w-9 h-9 md:w-10 md:h-10 rounded-lg flex items-center justify-center text-[10px] font-body ${
-                month === "Jan"
-                  ? "bg-cinema-gold/30 border-2 border-cinema-gold text-cinema-gold font-bold ring-2 ring-cinema-gold/30"
-                  : "bg-cinema-rose/20 border border-cinema-rose/30 text-cinema-cream/80"
-              }`}
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 3.2 + i * 0.1 }}
-            >
-              {month}
-            </motion.div>
-          ))}
-        </motion.div>
-
+      {/* The acceptance moment */}
+      <motion.div
+        className="relative z-30 mt-4 flex flex-col items-center"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 14, duration: 1.5 }}
+      >
+        <p className="text-sm md:text-base font-display italic text-cinema-gold/80 text-center cinema-subtitle">
+          "And then came January 9…"
+        </p>
         <motion.p
-          className="text-sm font-body text-cinema-gold/80 tracking-wider"
+          className="text-base md:text-lg font-display italic text-cinema-gold text-center cinema-subtitle mt-2"
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ delay: 15.5, duration: 1 }}
+        >
+          "The day you said YES… ❤️"
+        </motion.p>
+        <motion.p
+          className="text-xs font-display italic text-cinema-cream/40 text-center mt-2"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ delay: 4.5 }}
+          transition={{ delay: 17 }}
         >
-          January 9th ❤️
+          "Jan 9… naa life lo unforgettable date."
         </motion.p>
-      </div>
-
-      <div className="absolute bottom-28 z-30 px-6">
-        <WishCard
-          wish="One year of beautiful chaos, and then you said 'yes' — making me the luckiest soul in the universe. ✨"
-          delay={5.5}
-          variant="golden"
-        />
-      </div>
-
-      <div className="absolute bottom-10 z-30 px-8">
-        <CinemaSubtitle text="She said yes... after 1 year of beautiful chaos. January 9th — the day everything changed." delay={5} />
-      </div>
+      </motion.div>
     </div>
   );
 };
