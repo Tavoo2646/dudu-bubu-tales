@@ -169,7 +169,7 @@ const CinemaEngine = () => {
     if (!existing) {
       const iframe = document.createElement("iframe");
       iframe.id = "yt-audio-player";
-      iframe.src = "https://www.youtube.com/embed/qMGjr3LgTxE?autoplay=1&loop=1&playlist=qMGjr3LgTxE&controls=0";
+      iframe.src = "https://www.youtube.com/embed/rslYbT2GvRs?autoplay=1&loop=1&playlist=rslYbT2GvRs&controls=0";
       iframe.allow = "autoplay";
       iframe.style.cssText = "position:fixed;width:1px;height:1px;opacity:0;pointer-events:none;z-index:-1;";
       document.body.appendChild(iframe);
