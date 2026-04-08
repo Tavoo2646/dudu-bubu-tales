@@ -1,47 +1,61 @@
 import { motion } from "framer-motion";
-import CinemaSubtitle from "../cinema/CinemaSubtitle";
-import RainEffect from "../cinema/RainEffect";
-import SparkleOverlay from "../cinema/SparkleOverlay";
 import SceneImage from "../cinema/SceneImage";
-import TypewriterText from "../cinema/TypewriterText";
+import NarrationText from "../cinema/NarrationText";
+import RainEffect from "../cinema/RainEffect";
 import scene7 from "../../assets/scene7-deep-love.jpg";
 
 const Scene7DeepLove = () => {
   return (
     <div className="relative w-full h-full flex flex-col items-center justify-center overflow-hidden">
-      <div className="absolute inset-0 bg-gradient-to-b from-cinema-sunset/30 via-cinema-rose/15 to-cinema-deep" />
+      <div className="absolute inset-0 bg-gradient-to-b from-cinema-sunset/15 via-cinema-rose/8 to-cinema-deep" />
 
-      <RainEffect intensity={15} />
-      <SparkleOverlay count={10} color="cinema-sunset" />
+      <RainEffect intensity={8} />
 
-      {/* Sunset glow */}
+      {/* Soft sunset glow */}
       <motion.div
-        className="absolute top-0 left-1/2 -translate-x-1/2 w-[500px] h-[300px] rounded-full bg-cinema-sunset/10 blur-3xl"
-        animate={{ scale: [1, 1.1, 1], opacity: [0.3, 0.5, 0.3] }}
-        transition={{ duration: 5, repeat: Infinity }}
+        className="absolute top-0 left-1/2 -translate-x-1/2 w-[400px] h-[200px] rounded-full bg-cinema-sunset/8 blur-3xl"
+        animate={{ opacity: [0.2, 0.35, 0.2] }}
+        transition={{ duration: 6, repeat: Infinity }}
       />
+
+      <div className="relative z-30 mb-4 px-8 max-w-md">
+        <NarrationText
+          lines={[
+            "You stopped being a person in my life…",
+            "And became my peace.",
+            "My safe place. My strength.",
+          ]}
+          startDelay={0.5}
+          lineGap={2.2}
+        />
+      </div>
 
       <SceneImage
         src={scene7}
-        alt="Holding hands in the rain at sunset"
-        className="w-72 h-56 md:w-96 md:h-72 z-20"
-        delay={0.5}
-        animate="glow"
+        alt="Holding hands in the rain"
+        className="w-60 h-48 md:w-80 md:h-60 z-20"
+        delay={6}
       />
 
-      <div className="relative z-30 mt-6 px-6 max-w-md">
-        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 3 }}>
-          <TypewriterText
-            text="You held my hand through every storm, and turned every raindrop into a reason to smile. In your arms, even the darkest days feel bright."
-            delay={3}
-            className="text-sm md:text-base text-center text-cinema-cream/70"
-          />
-        </motion.div>
+      <div className="relative z-30 mt-5 px-8 max-w-md">
+        <NarrationText
+          lines={[
+            "Some people come into life…",
+            "And become home.",
+          ]}
+          startDelay={8}
+          lineGap={2}
+        />
       </div>
 
-      <div className="absolute bottom-12 z-30 px-8">
-        <CinemaSubtitle text="In the rain or shine, you were always my shelter..." delay={2} />
-      </div>
+      <motion.p
+        className="relative z-30 mt-4 text-xs font-display italic text-cinema-gold/50 text-center cinema-subtitle"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 12, duration: 1.5 }}
+      >
+        "Nuvvu naa happiness kaadu… naa peace."
+      </motion.p>
     </div>
   );
 };

@@ -10,96 +10,139 @@ import Scene7DeepLove from "../scenes/Scene7DeepLove";
 import Scene8BirthdayPlanning from "../scenes/Scene8BirthdayPlanning";
 import Scene9BirthdayClimax from "../scenes/Scene9BirthdayClimax";
 import Scene10Finale from "../scenes/Scene10Finale";
-import HeartCursor from "../cinema/HeartCursor";
-import LoveMeter from "../cinema/LoveMeter";
-import CinemaProgress from "../cinema/CinemaProgress";
+import HeartCursor from "./HeartCursor";
+import LoveMeter from "./LoveMeter";
+import InterludeScreen from "./InterludeScreen";
 
 interface SceneConfig {
   component: React.FC;
   title: string;
-  duration: number; // seconds before auto-advance
-  dayCount: number;
+  duration: number;
+  interlude?: string[];
+  interludeDuration?: number;
 }
 
 const scenes: SceneConfig[] = [
-  { component: Scene1FirstLook, title: "First Look", duration: 12, dayCount: 1 },
-  { component: Scene2StaircaseMeetings, title: "Staircase Meetings", duration: 12, dayCount: 14 },
-  { component: Scene3LoveGrowing, title: "Love Growing", duration: 12, dayCount: 45 },
-  { component: Scene4Proposal, title: "The Proposal", duration: 14, dayCount: 90 },
-  { component: Scene5CollegeJourney, title: "College Journey", duration: 12, dayCount: 180 },
-  { component: Scene6Memories, title: "Memories", duration: 12, dayCount: 300 },
-  { component: Scene7DeepLove, title: "Deep Love", duration: 12, dayCount: 400 },
-  { component: Scene8BirthdayPlanning, title: "Birthday Planning", duration: 12, dayCount: 500 },
-  { component: Scene9BirthdayClimax, title: "Happy Birthday!", duration: 14, dayCount: 545 },
-  { component: Scene10Finale, title: "Forever...", duration: 20, dayCount: 999 },
-];
-
-const transitions = [
   {
-    initial: { opacity: 0 },
-    animate: { opacity: 1 },
-    exit: { opacity: 0 },
-    transition: { duration: 1.2 } as const,
+    component: Scene1FirstLook,
+    title: "First Look",
+    duration: 15,
   },
   {
-    initial: { x: "100%", opacity: 0 },
-    animate: { x: 0, opacity: 1 },
-    exit: { x: "-100%", opacity: 0 },
-    transition: { duration: 0.8, ease: "easeInOut" as const },
+    component: Scene2StaircaseMeetings,
+    title: "Staircase Meetings",
+    duration: 15,
+    interlude: ["Days passed…", "But destiny had other plans…"],
+    interludeDuration: 5,
   },
   {
-    initial: { scale: 1.3, opacity: 0 },
-    animate: { scale: 1, opacity: 1 },
-    exit: { scale: 0.7, opacity: 0 },
-    transition: { duration: 1, ease: "easeOut" as const },
+    component: Scene3LoveGrowing,
+    title: "Love Growing",
+    duration: 15,
+    interlude: ["We didn't fall in love in one day…", "We built it in small moments."],
+    interludeDuration: 5,
   },
   {
-    initial: { y: "100%", opacity: 0 },
-    animate: { y: 0, opacity: 1 },
-    exit: { y: "-100%", opacity: 0 },
-    transition: { duration: 0.8, ease: "easeInOut" as const },
+    component: Scene4Proposal,
+    title: "The Proposal",
+    duration: 18,
+    interlude: ["Some meetings are accidental…", "But some become destiny."],
+    interludeDuration: 5,
+  },
+  {
+    component: Scene5CollegeJourney,
+    title: "College Journey",
+    duration: 15,
+    interlude: ["Time passed…", "But we stayed…", "Together…"],
+    interludeDuration: 6,
+  },
+  {
+    component: Scene6Memories,
+    title: "Memories",
+    duration: 14,
+    interlude: ["And then came the memories…", "The ones we'll never forget."],
+    interludeDuration: 5,
+  },
+  {
+    component: Scene7DeepLove,
+    title: "Deep Love",
+    duration: 14,
+    interlude: ["Somewhere between all those days…", "You became my everything."],
+    interludeDuration: 5,
+  },
+  {
+    component: Scene8BirthdayPlanning,
+    title: "Birthday Planning",
+    duration: 14,
+    interlude: ["And now…", "Your special day arrived."],
+    interludeDuration: 4,
+  },
+  {
+    component: Scene9BirthdayClimax,
+    title: "Happy Birthday",
+    duration: 18,
+    interlude: ["Because you deserve the world…"],
+    interludeDuration: 4,
+  },
+  {
+    component: Scene10Finale,
+    title: "Forever",
+    duration: 25,
+    interlude: ["If I could go back…", "And choose again…", "I would still choose you."],
+    interludeDuration: 6,
   },
 ];
 
 const CinemaEngine = () => {
   const [currentScene, setCurrentScene] = useState(0);
-  const [isAutoplay, setIsAutoplay] = useState(true);
-  const [showSecret, setShowSecret] = useState(false);
+  const [isPlaying, setIsPlaying] = useState(true);
   const [isMuted, setIsMuted] = useState(true);
   const [showIntro, setShowIntro] = useState(true);
+  const [showInterlude, setShowInterlude] = useState(false);
   const timerRef = useRef<ReturnType<typeof setTimeout>>();
-  const audioRef = useRef<HTMLAudioElement | null>(null);
 
   const scene = scenes[currentScene];
   const SceneComponent = scene.component;
-  const transitionVariant = transitions[currentScene % transitions.length];
 
   const goToScene = useCallback((index: number) => {
     if (index >= 0 && index < scenes.length) {
-      setCurrentScene(index);
+      const target = scenes[index];
+      if (target.interlude && index > 0) {
+        setShowInterlude(true);
+        setTimeout(() => {
+          setShowInterlude(false);
+          setCurrentScene(index);
+        }, (target.interludeDuration || 4) * 1000);
+      } else {
+        setCurrentScene(index);
+      }
     }
   }, []);
 
   const nextScene = useCallback(() => {
-    goToScene(Math.min(currentScene + 1, scenes.length - 1));
+    if (currentScene < scenes.length - 1) {
+      goToScene(currentScene + 1);
+    }
   }, [currentScene, goToScene]);
 
   const prevScene = useCallback(() => {
-    goToScene(Math.max(currentScene - 1, 0));
-  }, [currentScene, goToScene]);
+    if (currentScene > 0) {
+      setCurrentScene(currentScene - 1);
+    }
+  }, [currentScene]);
 
-  // Autoplay timer
+  // Autoplay
   useEffect(() => {
-    if (!isAutoplay || showIntro) return;
+    if (!isPlaying || showIntro || showInterlude) return;
     timerRef.current = setTimeout(() => {
       if (currentScene < scenes.length - 1) {
         nextScene();
       }
     }, scene.duration * 1000);
     return () => clearTimeout(timerRef.current);
-  }, [currentScene, isAutoplay, scene.duration, nextScene, showIntro]);
+  }, [currentScene, isPlaying, scene.duration, nextScene, showIntro, showInterlude]);
 
-  // Keyboard controls
+  // Keyboard
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
       if (e.key === "ArrowRight" || e.key === " ") {
@@ -115,16 +158,13 @@ const CinemaEngine = () => {
     return () => window.removeEventListener("keydown", handler);
   }, [nextScene, prevScene]);
 
-  // Background music - Telugu love song via YouTube IFrame API
+  // Music
   useEffect(() => {
     if (isMuted) {
-      // Remove existing iframe if muted
       const existing = document.getElementById("yt-audio-player");
       if (existing) existing.remove();
       return;
     }
-
-    // Create a hidden YouTube iframe to play "Inkem Inkem Kaavaale" (Telugu love song)
     const existing = document.getElementById("yt-audio-player");
     if (!existing) {
       const iframe = document.createElement("iframe");
@@ -134,62 +174,69 @@ const CinemaEngine = () => {
       iframe.style.cssText = "position:fixed;width:1px;height:1px;opacity:0;pointer-events:none;z-index:-1;";
       document.body.appendChild(iframe);
     }
-
     return () => {
       const el = document.getElementById("yt-audio-player");
       if (el) el.remove();
     };
   }, [isMuted]);
 
+  // Intro screen
   if (showIntro) {
     return (
       <div className="fixed inset-0 bg-background flex flex-col items-center justify-center">
         <HeartCursor />
         <motion.div
-          className="text-center"
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1.5 }}
+          className="text-center px-8"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 2 }}
         >
           <motion.p
-            className="text-sm font-body text-cinema-cream/40 tracking-[0.3em] uppercase mb-6"
-            animate={{ opacity: [0.3, 0.7, 0.3] }}
-            transition={{ duration: 3, repeat: Infinity }}
+            className="text-xs font-body text-cinema-cream/30 tracking-[0.4em] uppercase mb-8"
+            animate={{ opacity: [0.2, 0.5, 0.2] }}
+            transition={{ duration: 4, repeat: Infinity }}
           >
-            A Love Story Film Presents
+            A Love Story Film
           </motion.p>
-          <h1 className="text-5xl md:text-7xl font-display italic text-cinema-gold mb-4 cinema-subtitle">
+          <motion.h1
+            className="text-4xl md:text-6xl font-display italic text-cinema-cream/90 mb-3 cinema-subtitle"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.8, duration: 1.5 }}
+          >
             Dudu & Bubu
-          </h1>
-          <p className="text-lg font-body text-cinema-cream/60 mb-12">
-            A tale written in the stars ✨
-          </p>
+          </motion.h1>
+          <motion.p
+            className="text-sm font-display italic text-cinema-cream/40 mb-16"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 1.5, duration: 1.5 }}
+          >
+            "Some stories don't begin with a hello…"
+          </motion.p>
           <motion.button
-            className="px-8 py-3 rounded-full bg-cinema-rose/20 border border-cinema-rose/30 text-cinema-cream font-body text-sm tracking-wider uppercase hover:bg-cinema-rose/30 transition-colors"
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
+            className="px-10 py-3 rounded-full border border-cinema-cream/20 text-cinema-cream/60 font-body text-sm tracking-widest uppercase hover:text-cinema-cream/90 hover:border-cinema-cream/40 transition-all duration-500"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 2.5 }}
+            whileHover={{ scale: 1.03 }}
+            whileTap={{ scale: 0.97 }}
             onClick={() => setShowIntro(false)}
           >
-            ▶ Begin Our Story
+            ▶ Begin
           </motion.button>
         </motion.div>
 
-        {/* Decorative floating hearts */}
-        {[...Array(6)].map((_, i) => (
+        {/* Subtle floating hearts */}
+        {[...Array(4)].map((_, i) => (
           <motion.div
             key={i}
-            className="absolute text-cinema-rose/20 text-2xl"
-            style={{
-              left: `${15 + i * 15}%`,
-              top: `${20 + (i % 3) * 25}%`,
-            }}
-            animate={{
-              y: [0, -20, 0],
-              opacity: [0.1, 0.3, 0.1],
-            }}
-            transition={{ duration: 4 + i, repeat: Infinity }}
+            className="absolute text-cinema-rose/10 text-xl"
+            style={{ left: `${20 + i * 20}%`, top: `${30 + (i % 2) * 30}%` }}
+            animate={{ y: [0, -15, 0], opacity: [0.05, 0.15, 0.05] }}
+            transition={{ duration: 5 + i, repeat: Infinity }}
           >
-            ❤️
+            ❤
           </motion.div>
         ))}
       </div>
@@ -200,106 +247,95 @@ const CinemaEngine = () => {
     <div className="fixed inset-0 bg-background overflow-hidden">
       <HeartCursor />
 
-      {/* Film grain overlay */}
-      <div className="absolute inset-0 film-grain pointer-events-none z-40" />
+      {/* Very subtle film grain */}
+      <div className="absolute inset-0 film-grain pointer-events-none z-40 opacity-50" />
 
-      {/* Scene */}
-      <AnimatePresence mode="wait">
-        <motion.div
-          key={currentScene}
-          className="absolute inset-0"
-          initial={transitionVariant.initial}
-          animate={transitionVariant.animate}
-          exit={transitionVariant.exit}
-          transition={transitionVariant.transition}
-        >
-          <SceneComponent />
-        </motion.div>
-      </AnimatePresence>
-
-      {/* Love Meter */}
-      <LoveMeter progress={(currentScene + 1) / scenes.length} />
-
-      {/* Progress Bar */}
-      <CinemaProgress
-        current={currentScene}
-        total={scenes.length}
-        sceneTitle={scene.title}
-        dayCount={scene.dayCount}
-      />
-
-      {/* Controls overlay */}
-      <div className="fixed top-4 left-4 z-50 flex items-center gap-3">
-        {/* Sound toggle */}
-        <button
-          onClick={() => setIsMuted(!isMuted)}
-          className="w-9 h-9 rounded-full bg-muted/20 border border-cinema-cream/10 flex items-center justify-center text-cinema-cream/60 hover:text-cinema-cream transition-colors text-sm"
-        >
-          {isMuted ? "🔇" : "🔊"}
-        </button>
-
-        {/* Autoplay toggle */}
-        <button
-          onClick={() => setIsAutoplay(!isAutoplay)}
-          className="w-9 h-9 rounded-full bg-muted/20 border border-cinema-cream/10 flex items-center justify-center text-cinema-cream/60 hover:text-cinema-cream transition-colors text-xs"
-        >
-          {isAutoplay ? "⏸" : "▶"}
-        </button>
-      </div>
-
-      {/* Navigation arrows */}
-      <div className="fixed top-1/2 -translate-y-1/2 left-4 z-50">
-        <button
-          onClick={prevScene}
-          disabled={currentScene === 0}
-          className="w-10 h-10 rounded-full bg-muted/10 border border-cinema-cream/10 flex items-center justify-center text-cinema-cream/40 hover:text-cinema-cream disabled:opacity-20 transition-all"
-        >
-          ‹
-        </button>
-      </div>
-      <div className="fixed top-1/2 -translate-y-1/2 right-14 z-50">
-        <button
-          onClick={nextScene}
-          disabled={currentScene === scenes.length - 1}
-          className="w-10 h-10 rounded-full bg-muted/10 border border-cinema-cream/10 flex items-center justify-center text-cinema-cream/40 hover:text-cinema-cream disabled:opacity-20 transition-all"
-        >
-          ›
-        </button>
-      </div>
-
-      {/* Next Scene button */}
-      {currentScene < scenes.length - 1 && (
-        <motion.button
-          className="fixed top-4 right-4 z-50 px-4 py-2 rounded-full bg-cinema-rose/15 border border-cinema-rose/20 text-xs font-body text-cinema-cream/60 hover:text-cinema-cream hover:bg-cinema-rose/25 transition-all tracking-wider uppercase"
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
-          onClick={nextScene}
-        >
-          Next Scene →
-        </motion.button>
-      )}
-
-      {/* Secret message button */}
-      <button
-        onClick={() => setShowSecret(!showSecret)}
-        className="fixed bottom-16 right-4 z-50 w-8 h-8 rounded-full bg-cinema-gold/10 border border-cinema-gold/20 flex items-center justify-center text-sm hover:bg-cinema-gold/20 transition-colors"
-      >
-        💌
-      </button>
+      {/* Interlude black screen */}
       <AnimatePresence>
-        {showSecret && (
+        {showInterlude && scenes[currentScene + 1]?.interlude && (
           <motion.div
-            className="fixed bottom-28 right-4 z-50 max-w-xs p-4 rounded-2xl bg-card/80 backdrop-blur-sm border border-cinema-rose/20"
-            initial={{ opacity: 0, y: 10, scale: 0.9 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: 10, scale: 0.9 }}
+            key="interlude"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 1.5 }}
+            className="absolute inset-0 z-50"
           >
-            <p className="text-sm font-display italic text-cinema-cream/80">
-              "You are the reason I believe in forever. Every moment with you is a scene I never want to end." 💕
-            </p>
+            <InterludeScreen lines={scenes[currentScene + 1].interlude!} />
           </motion.div>
         )}
       </AnimatePresence>
+
+      {/* Scene with cinematic fade */}
+      <AnimatePresence mode="wait">
+        {!showInterlude && (
+          <motion.div
+            key={currentScene}
+            className="absolute inset-0"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 1.8, ease: "easeInOut" }}
+          >
+            <SceneComponent />
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Minimal love meter */}
+      <LoveMeter progress={(currentScene + 1) / scenes.length} />
+
+      {/* Minimal bottom progress */}
+      <div className="fixed bottom-0 left-0 right-0 z-50 h-[2px] bg-muted/20">
+        <motion.div
+          className="h-full bg-cinema-rose/50"
+          animate={{ width: `${((currentScene + 1) / scenes.length) * 100}%` }}
+          transition={{ duration: 1 }}
+        />
+      </div>
+
+      {/* Video-player style controls - minimal */}
+      <div className="fixed bottom-4 left-1/2 -translate-x-1/2 z-50 flex items-center gap-4 opacity-30 hover:opacity-80 transition-opacity duration-500">
+        <button
+          onClick={prevScene}
+          disabled={currentScene === 0}
+          className="text-cinema-cream/60 hover:text-cinema-cream disabled:opacity-20 transition-colors text-lg"
+        >
+          ⟨
+        </button>
+        <button
+          onClick={() => setIsPlaying(!isPlaying)}
+          className="w-8 h-8 rounded-full border border-cinema-cream/20 flex items-center justify-center text-cinema-cream/60 hover:text-cinema-cream transition-colors text-xs"
+        >
+          {isPlaying ? "⏸" : "▶"}
+        </button>
+        <button
+          onClick={nextScene}
+          disabled={currentScene === scenes.length - 1}
+          className="text-cinema-cream/60 hover:text-cinema-cream disabled:opacity-20 transition-colors text-lg"
+        >
+          ⟩
+        </button>
+        <button
+          onClick={() => setIsMuted(!isMuted)}
+          className="text-cinema-cream/60 hover:text-cinema-cream transition-colors text-sm ml-2"
+        >
+          {isMuted ? "🔇" : "🔊"}
+        </button>
+      </div>
+
+      {/* Scene title - subtle */}
+      <motion.div
+        key={`title-${currentScene}`}
+        className="fixed top-4 left-1/2 -translate-x-1/2 z-50"
+        initial={{ opacity: 0, y: -10 }}
+        animate={{ opacity: 0.3, y: 0 }}
+        transition={{ delay: 0.5, duration: 1 }}
+      >
+        <p className="text-[10px] font-body text-cinema-cream/40 tracking-[0.3em] uppercase">
+          {scene.title}
+        </p>
+      </motion.div>
     </div>
   );
 };

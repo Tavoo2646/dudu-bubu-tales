@@ -5,43 +5,37 @@ interface SceneImageProps {
   alt: string;
   className?: string;
   delay?: number;
-  animate?: "float" | "breathe" | "glow" | "none";
 }
 
-const SceneImage = ({ src, alt, className = "", delay = 0, animate = "breathe" }: SceneImageProps) => {
-  const floatAnimation = animate === "float" 
-    ? { y: [0, -12, 0] } 
-    : animate === "breathe" 
-    ? { scale: [1, 1.02, 1] }
-    : animate === "glow"
-    ? { filter: ["brightness(1)", "brightness(1.15)", "brightness(1)"] }
-    : {};
-
-  const floatTransition = animate !== "none" 
-    ? { duration: animate === "float" ? 5 : 6, repeat: Infinity, ease: "easeInOut" as const }
-    : {};
-
+const SceneImage = ({ src, alt, className = "", delay = 0 }: SceneImageProps) => {
   return (
     <motion.div
       className={`relative ${className}`}
-      initial={{ opacity: 0, scale: 0.85, y: 30 }}
-      animate={{ opacity: 1, scale: 1, y: 0 }}
-      transition={{ duration: 1.2, delay, ease: "easeOut" }}
+      initial={{ opacity: 0, scale: 0.92 }}
+      animate={{ opacity: 1, scale: 1 }}
+      transition={{ duration: 1.5, delay, ease: "easeOut" }}
     >
-      {/* Glow behind image */}
-      <div className="absolute inset-0 rounded-3xl bg-cinema-rose/20 blur-3xl scale-110" />
-      
+      {/* Soft ambient glow */}
+      <div className="absolute inset-0 rounded-3xl bg-cinema-rose/15 blur-3xl scale-125" />
+
       <motion.img
         src={src}
         alt={alt}
         className="relative w-full h-full object-cover rounded-3xl shadow-2xl"
-        animate={floatAnimation}
-        transition={floatTransition}
+        animate={{
+          scale: [1, 1.015, 1],
+          y: [0, -3, 0],
+        }}
+        transition={{
+          duration: 6,
+          repeat: Infinity,
+          ease: "easeInOut",
+        }}
         loading="eager"
       />
 
-      {/* Subtle vignette overlay */}
-      <div className="absolute inset-0 rounded-3xl bg-gradient-to-t from-background/40 via-transparent to-transparent pointer-events-none" />
+      {/* Cinematic vignette */}
+      <div className="absolute inset-0 rounded-3xl bg-gradient-to-t from-background/50 via-transparent to-background/20 pointer-events-none" />
     </motion.div>
   );
 };

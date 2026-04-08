@@ -1,73 +1,69 @@
 import { motion } from "framer-motion";
-import CinemaSubtitle from "../cinema/CinemaSubtitle";
-import Fireflies from "../cinema/Fireflies";
-import SparkleOverlay from "../cinema/SparkleOverlay";
 import SceneImage from "../cinema/SceneImage";
-import TypewriterText from "../cinema/TypewriterText";
+import NarrationText from "../cinema/NarrationText";
 import scene5 from "../../assets/scene5-college.jpg";
 
 const Scene5CollegeJourney = () => {
   return (
     <div className="relative w-full h-full flex flex-col items-center justify-center overflow-hidden">
-      <div className="absolute inset-0 bg-gradient-to-b from-cinema-gold/10 via-cinema-warm to-secondary" />
+      <div className="absolute inset-0 bg-gradient-to-b from-cinema-gold/8 via-cinema-warm to-secondary" />
 
-      {/* Falling autumn leaves */}
-      {Array.from({ length: 10 }).map((_, i) => (
+      {/* Gentle autumn leaves - very few */}
+      {Array.from({ length: 4 }).map((_, i) => (
         <motion.div
           key={i}
-          className="absolute text-lg"
+          className="absolute text-sm opacity-20"
           style={{ left: `${Math.random() * 100}%`, top: `-5%` }}
-          animate={{ y: ["0vh", "105vh"], x: [0, Math.random() * 40 - 20], rotate: [0, 360] }}
-          transition={{ duration: Math.random() * 8 + 6, repeat: Infinity, delay: Math.random() * 5, ease: "linear" }}
+          animate={{ y: ["0vh", "105vh"], rotate: [0, 180] }}
+          transition={{ duration: Math.random() * 10 + 10, repeat: Infinity, delay: Math.random() * 6, ease: "linear" }}
         >
-          {["🍂", "🍁", "🌿"][i % 3]}
+          🍂
         </motion.div>
       ))}
 
-      <Fireflies count={12} />
-      <SparkleOverlay count={10} color="cinema-gold" />
+      <div className="relative z-30 mb-4 px-8 max-w-md">
+        <NarrationText
+          lines={[
+            "Life moved forward…",
+            "Different colleges… Different paths…",
+            "But same destination… each evening.",
+          ]}
+          startDelay={0.5}
+          lineGap={2}
+        />
+      </div>
 
       <SceneImage
         src={scene5}
         alt="College journey together"
-        className="w-72 h-56 md:w-96 md:h-72 z-20"
-        delay={0.3}
-        animate="float"
+        className="w-60 h-48 md:w-80 md:h-60 z-20"
+        delay={5}
       />
 
-      {/* Memory polaroid strip */}
+      <div className="relative z-30 mt-5 px-8 max-w-md">
+        <NarrationText
+          lines={[
+            "Ice creams… Street food… Long walks…",
+            "And you dropping me safely every day.",
+          ]}
+          startDelay={7}
+          lineGap={2}
+        />
+      </div>
+
       <motion.div
-        className="relative z-20 flex gap-3 mt-4"
+        className="relative z-30 mt-4 px-8"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ delay: 3 }}
+        transition={{ delay: 12, duration: 1.5 }}
       >
-        {["🍦 Ice cream dates", "📚 Library hours", "🚌 Bus rides home"].map((memory, i) => (
-          <motion.div
-            key={i}
-            className="px-3 py-2 bg-card/30 border border-cinema-cream/10 rounded-xl text-[10px] md:text-xs font-body text-cinema-cream/60 backdrop-blur-sm"
-            initial={{ opacity: 0, y: 20, rotate: i % 2 === 0 ? -3 : 3 }}
-            animate={{ opacity: 1, y: 0, rotate: i % 2 === 0 ? -2 : 2 }}
-            transition={{ delay: 3.5 + i * 0.3 }}
-          >
-            {memory}
-          </motion.div>
-        ))}
+        <p className="text-xs font-display italic text-cinema-cream/50 text-center cinema-subtitle">
+          "Love isn't big gifts… It's the small daily efforts."
+        </p>
+        <p className="text-xs font-display italic text-cinema-gold/40 text-center cinema-subtitle mt-2">
+          "Nannu bus stop varaku drop chesina prathi roju… naa safety kante ekkuva care chesav."
+        </p>
       </motion.div>
-
-      <div className="absolute bottom-28 z-30 px-6">
-        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 5 }}>
-          <TypewriterText
-            text="Every road felt shorter with you walking beside me. Every boring lecture became fun with your silly notes."
-            delay={5}
-            className="text-xs md:text-sm text-center max-w-sm mx-auto"
-          />
-        </motion.div>
-      </div>
-
-      <div className="absolute bottom-10 z-30 px-8">
-        <CinemaSubtitle text="College roads, ice cream dates, and endless walks..." delay={2} />
-      </div>
     </div>
   );
 };
