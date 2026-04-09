@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import FloatingHearts from "../cinema/FloatingHearts";
 import CinemaGif from "../cinema/CinemaGif";
+import { gifMap } from "../../data/gifMap";
 import TypewriterText from "../cinema/TypewriterText";
 
 const heartLines = [
@@ -143,7 +144,7 @@ const SceneBdayHeart = () => {
         transition={{ delay: promiseDelay + 4, duration: 1.5 }}
       >
         <div className="absolute inset-0 rounded-3xl bg-cinema-rose/10 blur-2xl scale-125" />
-        <CinemaGif gifKey="comfortHug" className="w-36 h-36 md:w-44 md:h-44 rounded-3xl" />
+        <CinemaGif src={gifMap.comfortHug.url} alt={gifMap.comfortHug.alt} className="w-36 h-36 md:w-44 md:h-44 rounded-3xl" />
       </motion.div>
 
       {/* Secret message button */}

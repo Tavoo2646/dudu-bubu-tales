@@ -5,6 +5,7 @@ import Confetti from "../cinema/Confetti";
 import CinemaGif from "../cinema/CinemaGif";
 import { gifMap } from "../../data/gifMap";
 
+
 const candles = [0, 1, 2, 3, 4];
 
 const SceneBdayWish = () => {
@@ -80,7 +81,7 @@ const SceneBdayWish = () => {
         transition={{ delay: 2, duration: 1.5 }}
       >
         <div className="absolute inset-0 rounded-3xl bg-cinema-gold/10 blur-3xl scale-150" />
-        <CinemaGif gifKey="cakeSurprise" className="w-44 h-44 md:w-56 md:h-56 rounded-3xl" />
+        <CinemaGif src={gifMap.cakeSurprise.url} alt={gifMap.cakeSurprise.alt} className="w-44 h-44 md:w-56 md:h-56 rounded-3xl" />
       </motion.div>
 
       {/* Interactive candles */}
