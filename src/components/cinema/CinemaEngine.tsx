@@ -60,6 +60,18 @@ const scenes: SceneConfig[] = [
     interlude: ["Because you deserve the world…"], interludeDuration: 4,
   },
   {
+    component: SceneBdayBuildup, title: "The Moment", duration: 16,
+    interlude: ["Close your eyes…", "Feel this moment…"], interludeDuration: 4,
+  },
+  {
+    component: SceneBdayWish, title: "Birthday Wish", duration: 25,
+    interlude: ["And now…", "The surprise you deserve…"], interludeDuration: 4,
+  },
+  {
+    component: SceneBdayHeart, title: "From My Heart", duration: 35,
+    interlude: ["Every word I'm about to say…", "Comes straight from my heart."], interludeDuration: 5,
+  },
+  {
     component: Scene10Finale, title: "Forever", duration: 35,
     interlude: ["If I could go back…", "And choose again…", "I would still choose you."], interludeDuration: 6,
   },
