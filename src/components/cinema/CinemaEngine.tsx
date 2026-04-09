@@ -75,23 +75,18 @@ const CinemaEngine = () => {
   const scene = scenes[currentScene];
   const SceneComponent = scene.component;
 
-  // Auto-start music from 20s mark when intro is dismissed
+  // Start music when user clicks Begin (showIntro becomes false)
+  const musicStartedRef = useRef(false);
   useEffect(() => {
     if (showIntro || isMuted) return;
-    const existing = document.getElementById("yt-audio-player");
-    if (!existing) {
-      const iframe = document.createElement("iframe");
-      iframe.id = "yt-audio-player";
-      // start=20 to skip first 20 seconds of the song
-      iframe.src = "https://www.youtube.com/embed/rslYbT2GvRs?autoplay=1&loop=1&playlist=rslYbT2GvRs&controls=0&start=20";
-      iframe.allow = "autoplay";
-      iframe.style.cssText = "position:fixed;width:1px;height:1px;opacity:0;pointer-events:none;z-index:-1;";
-      document.body.appendChild(iframe);
-    }
-    return () => {
-      const el = document.getElementById("yt-audio-player");
-      if (el) el.remove();
-    };
+    if (musicStartedRef.current) return;
+    musicStartedRef.current = true;
+    const iframe = document.createElement("iframe");
+    iframe.id = "yt-audio-player";
+    iframe.src = "https://www.youtube.com/embed/rslYbT2GvRs?autoplay=1&loop=1&playlist=rslYbT2GvRs&controls=0&start=20";
+    iframe.allow = "autoplay";
+    iframe.style.cssText = "position:fixed;width:1px;height:1px;opacity:0;pointer-events:none;z-index:-1;";
+    document.body.appendChild(iframe);
   }, [showIntro, isMuted]);
 
   // Stop music 40s after last slide starts
@@ -176,9 +171,10 @@ const CinemaEngine = () => {
           transition={{ duration: 2 }}
         >
           <motion.p
-            className="text-xs font-body text-cinema-cream/30 tracking-[0.4em] uppercase mb-8"
-            animate={{ opacity: [0.2, 0.5, 0.2] }}
-            transition={{ duration: 4, repeat: Infinity }}
+            className="text-sm font-body text-cinema-cream/70 tracking-[0.4em] uppercase mb-8"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.3, duration: 1.5 }}
           >
             A Love Story Film
           </motion.p>
