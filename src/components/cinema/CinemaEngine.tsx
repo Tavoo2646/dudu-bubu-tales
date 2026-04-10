@@ -13,6 +13,7 @@ import SceneBdayBuildup from "../scenes/SceneBdayBuildup";
 import SceneBdayWish from "../scenes/SceneBdayWish";
 import SceneBdayHeart from "../scenes/SceneBdayHeart";
 import Scene10Finale from "../scenes/Scene10Finale";
+import SceneBdayFinale from "../scenes/SceneBdayFinale";
 import HeartCursor from "./HeartCursor";
 import LoveMeter from "./LoveMeter";
 import InterludeScreen from "./InterludeScreen";
@@ -75,12 +76,16 @@ const scenes: SceneConfig[] = [
     component: Scene10Finale, title: "Forever", duration: 35,
     interlude: ["If I could go back…", "And choose again…", "I would still choose you."], interludeDuration: 6,
   },
+  {
+    component: SceneBdayFinale, title: "Happy Birthday", duration: 30,
+    interlude: ["One last thing…", "From me to you…"], interludeDuration: 4,
+  },
 ];
 
 const CinemaEngine = () => {
   const [currentScene, setCurrentScene] = useState(0);
   const [isPlaying, setIsPlaying] = useState(true);
-  const [isMuted, setIsMuted] = useState(false); // autoplay unmuted
+  const [isMuted, setIsMuted] = useState(false);
   const [showIntro, setShowIntro] = useState(true);
   const [showInterlude, setShowInterlude] = useState(false);
   const [storyEnded, setStoryEnded] = useState(false);
@@ -90,7 +95,7 @@ const CinemaEngine = () => {
   const scene = scenes[currentScene];
   const SceneComponent = scene.component;
 
-  // Start music when user clicks Begin (showIntro becomes false)
+  // Start music when user clicks Begin - Neetho Unta (Surya Web Series)
   const musicStartedRef = useRef(false);
   useEffect(() => {
     if (showIntro || isMuted) return;
@@ -98,7 +103,7 @@ const CinemaEngine = () => {
     musicStartedRef.current = true;
     const iframe = document.createElement("iframe");
     iframe.id = "yt-audio-player";
-    iframe.src = "https://www.youtube.com/embed/rslYbT2GvRs?autoplay=1&loop=1&playlist=rslYbT2GvRs&controls=0&start=20";
+    iframe.src = "https://www.youtube.com/embed/pCcElfWYAGY?autoplay=1&loop=1&playlist=pCcElfWYAGY&controls=0&start=20";
     iframe.allow = "autoplay";
     iframe.style.cssText = "position:fixed;width:1px;height:1px;opacity:0;pointer-events:none;z-index:-1;";
     document.body.appendChild(iframe);

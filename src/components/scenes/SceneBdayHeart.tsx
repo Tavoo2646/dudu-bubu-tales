@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import FloatingHearts from "../cinema/FloatingHearts";
-import CinemaGif from "../cinema/CinemaGif";
-import { gifMap } from "../../data/gifMap";
+import SceneImage from "../cinema/SceneImage";
+import bdayHeartImg from "../../assets/scene-bday-heart.jpg";
 import TypewriterText from "../cinema/TypewriterText";
 
 const heartLines = [
@@ -16,7 +16,6 @@ const heartLines = [
 ];
 
 const SceneBdayHeart = () => {
-  const [showSecret, setShowSecret] = useState(false);
   const [visibleLines, setVisibleLines] = useState(0);
 
   // Reveal lines one by one
@@ -136,46 +135,18 @@ const SceneBdayHeart = () => {
         </motion.span>
       </motion.div>
 
-      {/* Forehead kiss GIF */}
+      {/* Generated emotional image */}
       <motion.div
         className="relative z-30 mt-4"
         initial={{ opacity: 0, scale: 0.9 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ delay: promiseDelay + 4, duration: 1.5 }}
       >
-        <div className="absolute inset-0 rounded-3xl bg-cinema-rose/10 blur-2xl scale-125" />
-        <CinemaGif src={gifMap.comfortHug.url} alt={gifMap.comfortHug.alt} className="w-36 h-36 md:w-44 md:h-44 rounded-3xl" />
-      </motion.div>
-
-      {/* Secret message button */}
-      <motion.div
-        className="relative z-30 mt-4"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: promiseDelay + 6 }}
-      >
-        {!showSecret ? (
-          <motion.button
-            onClick={() => setShowSecret(true)}
-            className="px-6 py-2 rounded-full border border-cinema-gold/30 text-cinema-gold/60 font-body text-xs tracking-widest uppercase hover:text-cinema-gold/90 hover:border-cinema-gold/50 transition-all duration-500"
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-          >
-            🎁 Open Secret Birthday Message
-          </motion.button>
-        ) : (
-          <motion.div
-            className="relative px-6 py-4 max-w-sm text-center"
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 1 }}
-          >
-            <div className="absolute inset-0 rounded-2xl bg-cinema-gold/5 blur-xl" />
-            <p className="relative font-display italic text-sm md:text-base text-cinema-gold/80 cinema-subtitle leading-relaxed">
-              "If I could gift you something… I would gift you the ability to see yourself through my eyes… then you would know how special you are."
-            </p>
-          </motion.div>
-        )}
+        <SceneImage
+          src={bdayHeartImg}
+          alt="Dudu and Bubu embracing under moonlight"
+          className="w-36 h-36 md:w-44 md:h-44"
+        />
       </motion.div>
     </div>
   );
