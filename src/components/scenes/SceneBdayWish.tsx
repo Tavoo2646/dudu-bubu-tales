@@ -2,9 +2,8 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import FloatingHearts from "../cinema/FloatingHearts";
 import Confetti from "../cinema/Confetti";
-import CinemaGif from "../cinema/CinemaGif";
-import { gifMap } from "../../data/gifMap";
-
+import SceneImage from "../cinema/SceneImage";
+import bdayWishImg from "../../assets/scene-bday-wish.jpg";
 
 const candles = [0, 1, 2, 3, 4];
 
@@ -19,7 +18,7 @@ const SceneBdayWish = () => {
   return (
     <div className="relative w-full h-full flex flex-col items-center justify-center overflow-hidden">
       {/* Theater dark bg with warm spotlight */}
-      <div className="absolute inset-0 bg-gradient-to-b from-cinema-deep via-background to-cinema-deep" />
+      <div className="absolute inset-0 bg-gradient-to-b from-cinema-rose/10 via-cinema-deep to-cinema-rose/8" />
 
       {/* Spotlight turning on */}
       <motion.div
@@ -73,15 +72,18 @@ const SceneBdayWish = () => {
         </div>
       )}
 
-      {/* GIF character with glow */}
+      {/* Generated celebration image */}
       <motion.div
         className="relative z-30 mb-3"
         initial={{ opacity: 0, scale: 0.8 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ delay: 2, duration: 1.5 }}
       >
-        <div className="absolute inset-0 rounded-3xl bg-cinema-gold/10 blur-3xl scale-150" />
-        <CinemaGif src={gifMap.cakeSurprise.url} alt={gifMap.cakeSurprise.alt} className="w-44 h-44 md:w-56 md:h-56 rounded-3xl" />
+        <SceneImage
+          src={bdayWishImg}
+          alt="Dudu and Bubu birthday cake surprise in theater"
+          className="w-44 h-44 md:w-56 md:h-56"
+        />
       </motion.div>
 
       {/* Interactive candles */}
