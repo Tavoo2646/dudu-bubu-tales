@@ -1,164 +1,217 @@
-import { useState } from "react";
-import { motion } from "framer-motion";
+import { useState, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import FloatingHearts from "../cinema/FloatingHearts";
 import Confetti from "../cinema/Confetti";
 import SceneImage from "../cinema/SceneImage";
-import bdayWishImg from "../../assets/scene-bday-wish.jpg";
 
-const candles = [0, 1, 2, 3, 4];
+import haldiImg from "../../assets/scene-wedding-haldi.jpg";
+import sangeetImg from "../../assets/scene-wedding-sangeet.jpg";
+import pellichupuluImg from "../../assets/scene-wedding-pellichupulu.jpg";
+import weddingMainImg from "../../assets/scene-wedding-main.jpg";
+
+const slideshow = [
+  { src: haldiImg, alt: "Dudu and Bubu haldi ceremony", label: "Haldi 💛" },
+  { src: sangeetImg, alt: "Dudu and Bubu sangeet night", label: "Sangeet 💃" },
+  { src: pellichupuluImg, alt: "Dudu and Bubu pellichupulu", label: "Pelli Chupulu 💍" },
+];
 
 const SceneBdayWish = () => {
-  const [blownCandles, setBlownCandles] = useState<Set<number>>(new Set());
-  const allBlown = blownCandles.size === candles.length;
+  const [currentSlide, setCurrentSlide] = useState(0);
+  const [slideshowDone, setSlideshowDone] = useState(false);
+  const [showMessage, setShowMessage] = useState(false);
 
-  const blowCandle = (id: number) => {
-    setBlownCandles((prev) => new Set(prev).add(id));
-  };
+  // Auto slideshow: 3.5s per image, then show main wedding
+  useEffect(() => {
+    if (slideshowDone) return;
+    const timer = setTimeout(() => {
+      if (currentSlide < slideshow.length - 1) {
+        setCurrentSlide((p) => p + 1);
+      } else {
+        setSlideshowDone(true);
+      }
+    }, 3500);
+    return () => clearTimeout(timer);
+  }, [currentSlide, slideshowDone]);
+
+  // Show message after main image appears
+  useEffect(() => {
+    if (!slideshowDone) return;
+    const t = setTimeout(() => setShowMessage(true), 2500);
+    return () => clearTimeout(t);
+  }, [slideshowDone]);
 
   return (
     <div className="relative w-full h-full flex flex-col items-center justify-center overflow-hidden">
-      {/* Theater dark bg with warm spotlight */}
-      <div className="absolute inset-0 bg-gradient-to-b from-cinema-rose/10 via-cinema-deep to-cinema-rose/8" />
+      {/* Wedding themed gradient */}
+      <div className="absolute inset-0 bg-gradient-to-b from-[hsl(0,40%,8%)] via-[hsl(350,30%,12%)] to-[hsl(40,50%,10%)]" />
 
-      {/* Spotlight turning on */}
-      <motion.div
-        className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[700px] z-10"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 1, duration: 2 }}
-      >
-        <div className="w-full h-full bg-gradient-radial from-cinema-gold/8 via-cinema-rose/3 to-transparent rounded-full blur-3xl" />
-      </motion.div>
+      {/* Gold sparkle particles */}
+      <div className="absolute inset-0 pointer-events-none z-10 overflow-hidden">
+        {Array.from({ length: 20 }, (_, i) => (
+          <motion.div
+            key={`sparkle-${i}`}
+            className="absolute text-cinema-gold/40"
+            style={{ left: `${Math.random() * 100}%`, top: `${Math.random() * 100}%`, fontSize: 8 + Math.random() * 6 }}
+            animate={{ opacity: [0, 1, 0], scale: [0.5, 1.2, 0.5] }}
+            transition={{ duration: 2 + Math.random() * 2, delay: Math.random() * 4, repeat: Infinity }}
+          >
+            ✦
+          </motion.div>
+        ))}
+      </div>
 
-      <FloatingHearts count={10} />
-
-      {/* Rose petals CSS */}
-      <div className="absolute inset-0 pointer-events-none z-20 overflow-hidden">
-        {Array.from({ length: 15 }, (_, i) => (
+      {/* Falling rose petals */}
+      <div className="absolute inset-0 pointer-events-none z-10 overflow-hidden">
+        {Array.from({ length: 12 }, (_, i) => (
           <motion.div
             key={`petal-${i}`}
-            className="absolute text-cinema-rose/30"
-            style={{ left: `${Math.random() * 100}%`, top: -20, fontSize: 14 + Math.random() * 8 }}
+            className="absolute"
+            style={{ left: `${Math.random() * 100}%`, top: -20, fontSize: 12 + Math.random() * 6 }}
             animate={{
               y: [0, window.innerHeight + 40],
-              x: [0, Math.sin(i) * 60],
+              x: [0, Math.sin(i) * 50],
               rotate: [0, 360],
-              opacity: [0.6, 0],
+              opacity: [0.5, 0],
             }}
-            transition={{ duration: 4 + Math.random() * 3, delay: 2 + Math.random() * 6, repeat: Infinity }}
+            transition={{ duration: 5 + Math.random() * 3, delay: 1 + Math.random() * 8, repeat: Infinity }}
           >
             🌹
           </motion.div>
         ))}
       </div>
 
-      {allBlown && <Confetti count={35} />}
+      <FloatingHearts count={8} />
+      {slideshowDone && <Confetti count={30} />}
 
-      {/* Fireworks after blowing */}
-      {allBlown && (
-        <div className="absolute inset-0 pointer-events-none z-20">
-          {[...Array(8)].map((_, i) => (
+      {/* PHASE 1: Auto slideshow - Haldi, Sangeet, Pellichupulu */}
+      {!slideshowDone && (
+        <div className="relative z-30 flex flex-col items-center gap-3">
+          <AnimatePresence mode="wait">
             <motion.div
-              key={`fw-${i}`}
-              className="absolute text-xl"
-              style={{ left: `${10 + Math.random() * 80}%`, top: `${10 + Math.random() * 50}%` }}
-              initial={{ opacity: 0, scale: 0 }}
-              animate={{ opacity: [0, 1, 0], scale: [0, 1.5, 0] }}
-              transition={{ delay: i * 0.3, duration: 1.2, repeat: 2 }}
+              key={currentSlide}
+              initial={{ opacity: 0, scale: 0.9, rotateY: -15 }}
+              animate={{ opacity: 1, scale: 1, rotateY: 0 }}
+              exit={{ opacity: 0, scale: 0.9, rotateY: 15 }}
+              transition={{ duration: 0.8 }}
+              className="relative"
             >
-              {["✨", "🎆", "🎇", "💫", "⭐"][i % 5]}
+              <SceneImage
+                src={slideshow[currentSlide].src}
+                alt={slideshow[currentSlide].alt}
+                className="w-52 h-52 md:w-64 md:h-64"
+              />
             </motion.div>
-          ))}
+          </AnimatePresence>
+
+          <motion.p
+            key={`label-${currentSlide}`}
+            className="text-lg md:text-xl font-display italic text-cinema-gold/90 cinema-subtitle"
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.5 }}
+          >
+            {slideshow[currentSlide].label}
+          </motion.p>
+
+          {/* Slide dots */}
+          <div className="flex gap-2 mt-2">
+            {slideshow.map((_, i) => (
+              <div
+                key={i}
+                className={`w-2 h-2 rounded-full transition-all duration-500 ${
+                  i === currentSlide ? "bg-cinema-gold/80 scale-125" : "bg-cinema-cream/20"
+                }`}
+              />
+            ))}
+          </div>
         </div>
       )}
 
-      {/* Generated celebration image */}
-      <motion.div
-        className="relative z-30 mb-3"
-        initial={{ opacity: 0, scale: 0.8 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ delay: 2, duration: 1.5 }}
-      >
-        <SceneImage
-          src={bdayWishImg}
-          alt="Dudu and Bubu birthday cake surprise in theater"
-          className="w-44 h-44 md:w-56 md:h-56"
-        />
-      </motion.div>
-
-      {/* Interactive candles */}
-      <motion.div
-        className="relative z-30 flex gap-3 mb-4"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 3.5, duration: 1 }}
-      >
-        {candles.map((id) => (
-          <button
-            key={id}
-            onClick={() => blowCandle(id)}
-            className="flex flex-col items-center cursor-pointer group transition-transform hover:scale-110"
+      {/* PHASE 2: Main wedding image + heartfelt message */}
+      {slideshowDone && (
+        <div className="relative z-30 flex flex-col items-center gap-4 px-6 max-w-lg">
+          {/* Spotlight glow */}
+          <motion.div
+            className="absolute -top-20 left-1/2 -translate-x-1/2 w-[500px] h-[500px] z-0"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 2 }}
           >
-            <motion.span
-              className="text-2xl"
-              animate={
-                blownCandles.has(id)
-                  ? { opacity: 0.3, scale: 0.8 }
-                  : { opacity: [0.7, 1, 0.7], scale: [1, 1.2, 1] }
-              }
-              transition={blownCandles.has(id) ? {} : { duration: 0.8, repeat: Infinity }}
-            >
-              {blownCandles.has(id) ? "💨" : "🕯️"}
-            </motion.span>
-            {!blownCandles.has(id) && (
-              <span className="text-[8px] text-cinema-cream/30 mt-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                tap
-              </span>
-            )}
-          </button>
-        ))}
-      </motion.div>
+            <div className="w-full h-full bg-gradient-radial from-cinema-gold/10 via-cinema-rose/5 to-transparent rounded-full blur-3xl" />
+          </motion.div>
 
-      {allBlown && (
-        <motion.p
-          className="relative z-30 text-xs text-cinema-gold/60 font-body mb-2"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-        >
-          🎉 You blew all the candles!
-        </motion.p>
+          {/* Main wedding image */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.85 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 1.5 }}
+          >
+            <SceneImage
+              src={weddingMainImg}
+              alt="Dudu and Bubu wedding ceremony"
+              className="w-56 h-56 md:w-72 md:h-72"
+            />
+          </motion.div>
+
+          {/* Wedding fireworks */}
+          <div className="absolute inset-0 pointer-events-none z-20">
+            {[...Array(6)].map((_, i) => (
+              <motion.div
+                key={`fw-${i}`}
+                className="absolute text-lg"
+                style={{ left: `${10 + Math.random() * 80}%`, top: `${5 + Math.random() * 30}%` }}
+                initial={{ opacity: 0, scale: 0 }}
+                animate={{ opacity: [0, 1, 0], scale: [0, 1.5, 0] }}
+                transition={{ delay: 1.5 + i * 0.4, duration: 1.2, repeat: 2 }}
+              >
+                {["✨", "💫", "🎆", "⭐", "💛", "🪷"][i % 6]}
+              </motion.div>
+            ))}
+          </div>
+
+          {/* Heartfelt wedding message */}
+          {showMessage && (
+            <div className="flex flex-col items-center gap-3 mt-2">
+              <motion.p
+                className="text-base md:text-xl font-display italic text-cinema-gold/90 text-center cinema-subtitle"
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 1.5 }}
+                style={{ animation: "breathing 3s ease-in-out infinite" }}
+              >
+                "My biggest dream is to see you as my groom…"
+              </motion.p>
+
+              <motion.p
+                className="text-sm md:text-lg font-display italic text-cinema-cream/70 text-center cinema-subtitle"
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 2, duration: 1.5 }}
+              >
+                "Walking around the fire with you, holding your hand forever…"
+              </motion.p>
+
+              <motion.p
+                className="text-sm md:text-lg font-display italic text-cinema-cream/60 text-center cinema-subtitle"
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 4, duration: 1.5 }}
+              >
+                "This is my birthday gift to you — a promise of our forever. 💍"
+              </motion.p>
+
+              <motion.p
+                className="text-xs text-cinema-gold/40 font-body mt-2"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 6, duration: 1.5 }}
+              >
+                ~ Your Future Wife 💕
+              </motion.p>
+            </div>
+          )}
+        </div>
       )}
-
-      {/* Emotional text */}
-      <div className="relative z-30 flex flex-col items-center gap-3 px-8 max-w-lg">
-        <motion.p
-          className="text-base md:text-xl font-display italic text-cinema-gold/90 text-center cinema-subtitle"
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 5, duration: 1.5 }}
-          style={{ animation: "breathing 3s ease-in-out infinite" }}
-        >
-          "Happy Birthday to the boy who became my peace."
-        </motion.p>
-
-        <motion.p
-          className="text-sm md:text-lg font-display italic text-cinema-cream/70 text-center cinema-subtitle"
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 7.5, duration: 1.5 }}
-        >
-          "You didn't just enter my life…"
-        </motion.p>
-
-        <motion.p
-          className="text-sm md:text-lg font-display italic text-cinema-cream/80 text-center cinema-subtitle"
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 9.5, duration: 1.5 }}
-        >
-          "You changed how my heart feels."
-        </motion.p>
-      </div>
     </div>
   );
 };
