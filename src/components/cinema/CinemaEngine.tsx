@@ -66,8 +66,12 @@ const scenes: SceneConfig[] = [
     interlude: ["Close your eyes…", "Feel this moment…"], interludeDuration: 4,
   },
   {
-    component: SceneBdayWish, title: "Our Future Together", duration: 45,
+    component: SceneBdayWish, title: "Our Future Together", duration: 40,
     interlude: ["And now…", "Your surprise gift…", "A glimpse of our forever… 💍"], interludeDuration: 5,
+  },
+  {
+    component: SceneBdayCGL, title: "The Promise", duration: 40,
+    interlude: ["But wait…", "There's one more dream…", "And a promise… 🇮🇳"], interludeDuration: 5,
   },
   {
     component: SceneBdayHeart, title: "From My Heart", duration: 35,
