@@ -65,7 +65,7 @@ const scenes: SceneConfig[] = [
     interlude: ["Close your eyes…", "Feel this moment…"], interludeDuration: 4,
   },
   {
-    component: SceneBdayWish, title: "Our Future Together", duration: 30,
+    component: SceneBdayWish, title: "Our Future Together", duration: 45,
     interlude: ["And now…", "Your surprise gift…", "A glimpse of our forever… 💍"], interludeDuration: 5,
   },
   {
