@@ -19,6 +19,7 @@ const slideshow = [
   { src: weddingMainImg, alt: "Wedding ceremony", label: "Our Wedding 🪷", text: "Seven steps, seven promises… one lifetime of love together 🔥" },
   { src: dreamCarImg, alt: "Our dream car", label: "Our Dream Car 🚗", text: "Driving into our future together… every road leads to happiness 🌟" },
   { src: dreamHouseImg, alt: "Our dream house", label: "Our Dream Home 🏡", text: "Building our little paradise… where love lives in every corner 🏠💕" },
+  { src: dreamIasImg, alt: "IAS Jagadeesh", label: "IAS JAGADEESH 🏛️", text: "My biggest dream… seeing you serve the nation as an IAS Officer 🇮🇳" },
 ];
 
 const SceneBdayWish = () => {
