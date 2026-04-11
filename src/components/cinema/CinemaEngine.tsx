@@ -11,6 +11,7 @@ import Scene8BirthdayPlanning from "../scenes/Scene8BirthdayPlanning";
 import Scene9BirthdayClimax from "../scenes/Scene9BirthdayClimax";
 import SceneBdayBuildup from "../scenes/SceneBdayBuildup";
 import SceneBdayWish from "../scenes/SceneBdayWish";
+import SceneBdayCGL from "../scenes/SceneBdayCGL";
 import SceneBdayHeart from "../scenes/SceneBdayHeart";
 import Scene10Finale from "../scenes/Scene10Finale";
 import SceneBdayFinale from "../scenes/SceneBdayFinale";
